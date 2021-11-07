@@ -1,5 +1,7 @@
 package com.insquidious.player;
 
+import java.util.ArrayList;
+
 public abstract class Player {
     //fields
     protected boolean isAlive;//No need in constructor because every player is alive
@@ -7,11 +9,13 @@ public abstract class Player {
     protected String name;
     protected int minPos;
     public static int maxPos;
-    public Player(String id, String name)
+    public static ArrayList<String> boardPositions = new ArrayList<String>();
+    public Player(String name)
     {
         minPos = 0;
         isAlive = true;
-        this.boardPosition = id;
+        this.name = name;
+        boardPosition = "";
     }
 
     public boolean isAlive() {
