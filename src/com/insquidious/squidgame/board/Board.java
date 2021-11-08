@@ -19,6 +19,7 @@ public abstract class Board {
 
     //subclass level processing
     protected abstract void initBoard();
+    protected abstract void drawBoard();
 
     //Accessors
     public BoardType getGame() {

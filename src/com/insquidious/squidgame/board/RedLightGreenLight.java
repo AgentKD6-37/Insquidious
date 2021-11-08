@@ -2,6 +2,8 @@ package com.insquidious.squidgame.board;
 
 //concrete implementation of BoardType
 
+import com.insquidious.player.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +16,9 @@ public class RedLightGreenLight extends Board {
     public static final Integer TIME_LIMIT = 120_000;
 
     //fields
-    private static List<Integer> playerList= new ArrayList<Integer>();
-    private static List<Integer> rows= new ArrayList<Integer>();
+    //The Board object will expect an ArrayList of Player objects
+    private static List<Player> playerList= new ArrayList<>();
+    private static ArrayList<ArrayList<Player>> boardGrid =new ArrayList<ArrayList<Player> >();
 
     //Constructors
     RedLightGreenLight() {
@@ -47,26 +50,41 @@ public class RedLightGreenLight extends Board {
         //test method
         System.out.println("Creating red light, green light board!");
 
-        ArrayList<ArrayList<Integer>> boardGrid =new ArrayList<ArrayList<Integer> >();
-
         //adds the first "row" to the board starting at 0
-        boardGrid.add(new ArrayList<Integer>());
+        boardGrid.add(new ArrayList<Player>());
 
         System.out.println("Adding players.");
 
-        //Adding player ids for inner list
-        //TODO: This will need to be swapped for player objects
-        for (int i = 1; i < (MAX_PLAYERS+1); i++) {
-            playerList.add(i);
-        }
-
         //creating rows for the outer array list
-        //TODO: Will need to swap Integer for Player
-        for (Integer player: playerList) {
+        //Done: Will need to swap Integer for Player
+        for (Player player: playerList) {
             //adding players to the starting row 0
             boardGrid.get(0).add(player);
         }
     }
 
+    /*
+     * Method will draw the game board on the screen.
+     * The rows are the outer ArrayList. Rows will start at 0.
+     * Max number of rows determined by LENGTH variable.
+     * Players are represented on the board by X's with O's being a blank.
+     */
+    @Override
+    protected void drawBoard() {
+        for (int i = 0; i < LENGTH; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                if ((boardGrid.get(i).get(j)) instanceof Player) {
+                    System.out.println("X");
+                }
+                else{
+                    System.out.println("||");
+                }
+            }
+        }
+    }
 
+    @Override
+    public String toString() {
+        return "RedLightGreenLight{}";
+    }
 }
