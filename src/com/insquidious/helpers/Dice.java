@@ -31,7 +31,7 @@ public class Dice {
         int result = 0;
         sides = getSides() + 1;
         Random random = new Random();   //instance of the random number class
-        result = random.nextInt(sides);   //generates random number from 1-sides
+        result = random.nextInt(sides+1);   //generates random number from 1-sides
         return result;
     }
 
