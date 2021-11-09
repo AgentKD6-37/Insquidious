@@ -3,6 +3,7 @@ package com.insquidious.squidgame.board;
 //concrete implementation of BoardType
 
 import com.insquidious.helpers.Dice;
+import com.insquidious.player.ComputerPlayer;
 import com.insquidious.player.MainPlayer;
 import com.insquidious.player.Player;
 import com.insquidious.squidgame.FileManager;
@@ -25,6 +26,7 @@ public class RedLightGreenLight {
     private int enemy;
     private int timer = 120;
     private int playerTime = playerDist / playerSpd;
+    private static final int AI_PLAYER_COUNT = 19;
 
 
     private boolean redLightGreenLight(int players) {
@@ -32,9 +34,17 @@ public class RedLightGreenLight {
         String playerInput = scanner.next();
         Dice d6 = new Dice();
         ArrayList<Player> listOfPlayers = new ArrayList<>();
-        //for (Player aiPlayer:aiPlayerList) {
-        //    listOfPlayers.add(aiPlayer);
-        //}
+
+        String[] computerPlayerNames = {"Gi-Hun", "Sae-Byeok", "Ji-yeong", "Sang-woo", "Ali", "Il-nam",
+                "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "12. Ho-seok", "Nam-joon",
+                "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
+
+        ComputerPlayer aiPlayers;
+        for(int i = 0; i < AI_PLAYER_COUNT; i++){
+            aiPlayers = new ComputerPlayer(computerPlayerNames[i]);
+            listOfPlayers.add(aiPlayers);
+        }
+
         listOfPlayers.add(humanPlayer);
         int Round = 0;
         //while(playerPos[][]!=[id][100]||timer !=0){
