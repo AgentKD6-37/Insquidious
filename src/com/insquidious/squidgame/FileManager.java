@@ -11,7 +11,7 @@ import java.util.Scanner;
  *File manager can import, read, write, or create files
  */
 
-class FileManager {
+public class FileManager {
 
     private FileInputStream in = null;
     private FileOutputStream out = null;
@@ -26,7 +26,7 @@ class FileManager {
         in = new FileInputStream(saveGame);
     }
 
-    public void getArtFile(String fileName) throws IOException{
+    public void getAssetFile (String fileName) throws IOException{
         String art = "Assets/" + fileName;
         var out = new BufferedOutputStream(System.out);
         Files.copy(Path.of(art), out);
@@ -35,28 +35,15 @@ class FileManager {
 
 
     //save-game.properties is set by default to null/0 values and then overwritten by the newPlayerCreator
-    void newPlayerCreator() throws IOException {
-        in = new FileInputStream(saveGame);
-        save.load(in);
-        out = new FileOutputStream(saveGame);
-        System.out.print("What is your name? : ");
-        String name = scanner.next();
-        if(name != null){
-            save.put("playerName", name );
-        }else{
-            System.out.println("Name cannot be empty!");
-            name = scanner.next();
-        }
-        System.out.print("Have you played this game before? [Y/N] : ");
-        String newPlayer = scanner.next();
-        if (newPlayer.equals("N")) {
-            save.put("newPlayer", false);
-        } else {
-            System.out.println("Enter only Y or N");
-            newPlayer = scanner.next();
-        }
-        in.close();
-        out.close();
+
+    public Properties getSaveFile() throws IOException {
+        try {
+            save = new Properties();
+            in = new FileInputStream(saveGame);
+            save.load(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }return save;
     }
 
 }
