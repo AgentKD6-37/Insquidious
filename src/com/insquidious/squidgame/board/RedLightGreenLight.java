@@ -2,89 +2,76 @@ package com.insquidious.squidgame.board;
 
 //concrete implementation of BoardType
 
+import com.insquidious.helpers.Dice;
+import com.insquidious.player.MainPlayer;
 import com.insquidious.player.Player;
+import com.insquidious.squidgame.FileManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Properties;
+import java.util.Scanner;
 
-public class RedLightGreenLight extends Board {
-    //static fields
-    public static final Integer LENGTH = 100;
-    public static final Integer WIDTH = 20;
-    public static final Integer MAX_PLAYERS = 20;
-    //TODO: Time synchronization or implement time countdown
-    public static final Integer TIME_LIMIT = 120_000;
-
-    //fields
-    //The Board object will expect an ArrayList of Player objects
-    private static List<Player> playerList= new ArrayList<>();
-    private static ArrayList<ArrayList<Player>> boardGrid =new ArrayList<ArrayList<Player> >();
-
-    //Constructors
-    RedLightGreenLight() {
-        super(BoardType.RLGL, LENGTH, WIDTH);
-        initBoard();
-    }
-
-    //Methods
-
+public class RedLightGreenLight {
     /*
-    * Method moves Player objects across the board
-    * TODO: need to coordinate with Zrybea about controlling the speed of the player across
-    *  the board, pass speed? convert speed to movement? I also need a way to track each players current row.
-    */
-    public void movePlayer() {
-        int moveForward;
-        while (true){
-
-        }
-    }
-
-    /*
-     * This initializes the 2d array that represents the game board.
-     * The rows are the outer ArrayList. Rows will start at 0.
-     * Max number of rows determined by LENGTH variable.
+     * Fields for game management
      */
-    @Override
-    protected void initBoard() {
-        //test method
-        System.out.println("Creating red light, green light board!");
+    private FileManager fileManager = new FileManager();
+    private Properties save;
+    private String playerName = save.getProperty("playerName");
+    MainPlayer humanPlayer = new MainPlayer(playerName);
+    private int playerSpd;
+    private int playerDist;
+    private int enemy;
+    private int timer = 120;
+    private int playerTime = playerDist / playerSpd;
 
-        //adds the first "row" to the board starting at 0
-        boardGrid.add(new ArrayList<Player>());
 
-        System.out.println("Adding players.");
-
-        //creating rows for the outer array list
-        //Done: Will need to swap Integer for Player
-        for (Player player: playerList) {
-            //adding players to the starting row 0
-            boardGrid.get(0).add(player);
-        }
-    }
-
-    /*
-     * Method will draw the game board on the screen.
-     * The rows are the outer ArrayList. Rows will start at 0.
-     * Max number of rows determined by LENGTH variable.
-     * Players are represented on the board by X's with O's being a blank.
-     */
-    @Override
-    protected void drawBoard() {
-        for (int i = 0; i < LENGTH; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                if ((boardGrid.get(i).get(j)) instanceof Player) {
-                    System.out.println("X");
-                }
-                else{
-                    System.out.println("||");
+    private boolean redLightGreenLight(int players) {
+        Scanner scanner = new Scanner(System.in);
+        String playerInput = scanner.next();
+        Dice d6 = new Dice();
+        ArrayList<Player> listOfPlayers = new ArrayList<>();
+        //for (Player aiPlayer:aiPlayerList) {
+        //    listOfPlayers.add(aiPlayer);
+        //}
+        listOfPlayers.add(humanPlayer);
+        int Round = 0;
+        //while(playerPos[][]!=[id][100]||timer !=0){
+        for (int i = timer; i > 0; i--) {
+            enemy = d6.dieRoller();
+            for (Object player : listOfPlayers) {
+                if (player == this.humanPlayer) {
+                    System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-100]");
+                    this.playerDist = scanner.nextInt();
+                    if (this.playerDist < 1 || this.playerDist > 100) {
+                        System.out.println("Number must be between 1-100");
+                        this.playerDist = scanner.nextInt();
+                    }
+                }else{
+                    //if(aiIsAlive){
+                    int aiPlayerDist = d6.dieRoller();
+                    int aiPlayerTime = aiPlayerDist/5;
+                    if(aiPlayerTime > enemy){
+                        //AI changes from O to X on board
+                        //AI is set to dead
+                    }
                 }
             }
+            if(playerTime > enemy){
+                humanPlayer.setAlive(false);
+                return false;
+            }else{
+                //playerPos[][] = playerPos[id][x+playerDist]
+            }
+        timer--;
         }
+        return true;
     }
 
-    @Override
-    public String toString() {
-        return "RedLightGreenLight{}";
+    private void loadPlayerProperties() throws IOException {
+        this.save = fileManager.getSaveFile();
     }
+
+
 }

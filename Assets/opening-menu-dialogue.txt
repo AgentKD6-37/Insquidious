@@ -1,8 +1,11 @@
 
 Welcome. Would you like to play?
-1 - New Story Game
-2 - Mini Game Selector
-3 - Exit
 
+ ___________________________
+| 1 - New Story Game        |
+| 2 - Continue              |
+| 3 - Mini Game Selector    |
+| 4 - Exit                  |
+ ---------------------------
 
 Please select a number to continue: 
