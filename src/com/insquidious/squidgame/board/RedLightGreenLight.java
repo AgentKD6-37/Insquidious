@@ -25,6 +25,8 @@ public class RedLightGreenLight {
     private int enemy;
     private int timer = 120;
     private int playerTime = playerDist / playerSpd;
+    private String[][] boardGrid = new String[20][100];
+    ArrayList<Player> listOfPlayers = new ArrayList<>();
 
 
     private boolean redLightGreenLight(int players) {
@@ -65,13 +67,52 @@ public class RedLightGreenLight {
                 //playerPos[][] = playerPos[id][x+playerDist]
             }
         timer--;
+            drawBoard();
         }
         return true;
+    }
+
+
+    public void updatePlayerLocation(int y, Player player) {
+		for (Player playerElement: listOfPlayers )
+        if (playerElement == humanPlayer) {
+            int x = humanPlayer.getID;
+            boardGrid[y][x] = "P";
+		}else{
+            int x = aiPlayer.getID;
+            boardGrid[y][x] = "O";
+        }
+
+	}
+
+    protected void drawBoard() {
+        System.out.println("-----------------------------------------------------------------------------------"+
+                "-----------------------------------------------------------------------------------"+
+                "-----------------------------------------------------------------------------------"+
+                "-----------------------------------------------------------------------------------"+
+                "-----------------------------------------------------------------------");
+        int count = 100;
+        for (int i = 0; i < 20; i++) {
+                System.out.print("O" + " ");
+            System.out.print("| ");
+            for (int j = 0; j < 100; j++) {
+                if (boardGrid[i][j] == null) {
+                    System.out.print("  | ");
+                } else {
+                    System.out.print(boardGrid[i][j] + " | ");
+                }
+            }
+            System.out.println();
+            System.out.println("-----------------------------------------------------------------------------------"+
+                    "-----------------------------------------------------------------------------------"+
+                    "-----------------------------------------------------------------------------------"+
+                    "-----------------------------------------------------------------------------------"+
+                    "-----------------------------------------------------------------------");
+        }
+        System.out.println();
     }
 
     private void loadPlayerProperties() throws IOException {
         this.save = fileManager.getSaveFile();
     }
-
-
 }

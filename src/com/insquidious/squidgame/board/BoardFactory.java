@@ -7,7 +7,7 @@ public class BoardFactory {
 
         switch (game) {
             case RLGL:
-                board = new RedLightGreenLight();
+                //board = new RedLightGreenLight();
                 break;
 
             case DALGANO:

@@ -15,4 +15,9 @@ public class Dalgano extends Board{
     protected void initBoard() {
         System.out.println("Creating Dalgano board.");
     }
+
+    @Override
+    protected void drawBoard() {
+
+    }
 }

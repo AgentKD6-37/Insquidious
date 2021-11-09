@@ -18,7 +18,7 @@ public class FileManager {
     private FileWriter writer;
     private Scanner scanner = new Scanner(System.in);
     private FileReader reader;
-    private String saveGame = "save-game.properties";
+    private String saveGame = "Assets/save-game.properties";
     public Properties save;
 
     //returns the save file to the game engine to be read
