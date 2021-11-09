@@ -1,21 +1,25 @@
 package com.insquidious.player;
 
-import java.util.ArrayList;
-
 public abstract class Player {
     //fields
     protected boolean isAlive;//No need in constructor because every player is alive
-    protected String boardPosition;//Will be set by a random number gen
-    protected String name;
-    protected int minPos;
-    public static int maxPos;
-    public static ArrayList<String> boardPositions = new ArrayList<String>();
-    public Player(String name)
+    protected String playerName;
+    protected int playerSpd;
+    protected int playerDist = 0;
+    protected int yCoordinate = 0;
+
+    public Player(String playerName)
     {
-        minPos = 0;
         isAlive = true;
-        this.name = name;
-        boardPosition = "";
+        this.playerName = playerName;
+        this.playerSpd = getPlayerSpd();
+    }
+
+    public Player(String playerName, int playerSpd)
+    {
+        isAlive = true;
+        this.playerName = playerName;
+        this.playerSpd = 0;
     }
 
     public boolean isAlive() {
@@ -26,26 +30,35 @@ public abstract class Player {
         isAlive = alive;
     }
 
-    public String getBoardPosition() {
-        return boardPosition;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setBoardPosition(String boardPosition) {
-        this.boardPosition = boardPosition;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
-    public String getName() {
-        return name;
+    public int getPlayerSpd() {
+        return playerSpd;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPlayerSpd(int playerSpd) {
+        this.playerSpd = playerSpd;
     }
 
-    protected int getRandomInteger(int min, int max)
-    {
-        return ((int)(Math.random()*(max)))+min;
+    public int getPlayerDist() {
+        return playerDist;
     }
 
+    public void setPlayerDist(int playerDist) {
+        this.playerDist = playerDist;
+    }
 
+    public int getyCoordinate() {
+        return yCoordinate;
+    }
+
+    public void setyCoordinate(int yCoordinate) {
+        this.yCoordinate = yCoordinate;
+    }
 }

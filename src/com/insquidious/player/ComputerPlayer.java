@@ -1,24 +1,41 @@
 package com.insquidious.player;
 
 
+import java.util.Random;
+
 public class ComputerPlayer extends Player{
-    String name; //this will get randomly assigned from txt file or other solution
+    private static final int MAX_SPEED = 4;
 
-
-    public ComputerPlayer(String name){
-        super(name);
-        createPosition();//Place piece on board at start
+    public ComputerPlayer(String playerName){
+        super(playerName);
+        setPlayerSpd(playerSpd);
     };
-    public void createPosition()
-    {
-        for(int i = 0; i < 2; i ++)
-        {
-            boardPosition +=getRandomInteger(minPos,maxPos);//arguments can be set in parent class constructor
-            if(i<2-1)
-            {
-                boardPosition+=",";
-            }
-        }
-        Player.boardPositions.add(boardPosition);
+
+    private int generateRandomSpeed( int MAX_SPEED){
+        Random randomSpeed = new Random();
+        return playerSpd = randomSpeed.nextInt(MAX_SPEED);
+    }
+
+
+    @Override
+    public int getPlayerSpd() {
+        return playerSpd;
+    }
+
+    @Override
+    public void setPlayerSpd(int playerSpd) {
+        this.playerSpd = generateRandomSpeed(MAX_SPEED);
+    }
+
+    @Override
+    public String toString() {
+        return "ComputerPlayer{" +
+                "maxSpeed=" + MAX_SPEED +
+                ", isAlive=" + isAlive +
+                ", playerName='" + playerName + '\'' +
+                ", playerSpd=" + playerSpd +
+                ", playerDist=" + playerDist +
+                ", yCoordinate=" + yCoordinate +
+                '}';
     }
 }
