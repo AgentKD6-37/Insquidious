@@ -23,7 +23,7 @@ public class RedLightGreenLight {
     MainPlayer humanPlayer;
     ComputerPlayer aiPlayer;
     private int aiPlayerID; //TODO MAKE AI PLAYER ID LIST
-    private int playerSpd; //TODO READ SPEED FROM SAVE FILE
+    private int playerSpd = Integer.parseInt(save.getProperty("playerSpd"));
     private int playerDist;
     private int enemy;
     private int timer = 120;
