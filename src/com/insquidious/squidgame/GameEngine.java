@@ -1,8 +1,8 @@
 package com.insquidious.squidgame;
 
+import com.insquidious.squidgame.game.RedLightGreenLight;
 import com.insquidious.squidgame.player.MainPlayer;
-import com.insquidious.player.MainPlayer;
-import com.insquidious.squidgame.board.RedLightGreenLight;
+
 
 import java.io.*;
 import java.nio.file.Files;

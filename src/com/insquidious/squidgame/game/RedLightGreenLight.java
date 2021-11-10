@@ -37,7 +37,7 @@ public class RedLightGreenLight {
     /*
      * Game logic!
      */
-    private boolean redLightGreenLight() throws IOException {
+    public boolean redLightGreenLight() throws IOException {
         int playerTime;
 
         loadPlayerProperties();
