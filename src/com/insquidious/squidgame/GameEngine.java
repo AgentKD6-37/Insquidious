@@ -46,7 +46,6 @@ public class GameEngine {
 
             } else if (choice == 1) { //Create new player
                 fileManager.newPlayerCreator();
-                dormMenu();
                 break;
             } else if (choice == 2) { //Continue from save file
                 try {
