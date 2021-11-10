@@ -19,7 +19,7 @@ public class FileManager {
     private Scanner scanner = new Scanner(System.in);
     private FileReader reader;
     private String saveGame = "Assets/save-game.properties";
-    public Properties save;
+    public Properties saveFile;
 
     //returns the save file to the game engine to be read
     public void getSaveFile(Properties flag) throws IOException {
@@ -33,17 +33,46 @@ public class FileManager {
         out.flush();
     }
 
+    void newPlayerCreator() throws IOException, InterruptedException {
+        saveFile = new Properties();
+        in = new FileInputStream(saveGame);
+        saveFile.load(in);
+        in.close();
+        out = new FileOutputStream(saveGame);
+        System.out.print("What is your name? : ");
+        System.out.println();
+        String name = scanner.next();
+        saveFile.put("playerName", name);
+        saveFile.put("rlglComplete", Boolean.toString(false));
+        saveFile.put("isAlive", Boolean.toString(true));
+        System.out.print("Have you played this game before? [Y/N] : ");
+        System.out.println();
+        String newPlayer = scanner.next();
+        if (newPlayer.equals("N")) {
+            saveFile.put("newPlayer", Boolean.toString(true));
+            getAssetFile("new-player-story.txt");
+        }else if (newPlayer.equals("Y")){
+            System.out.println("starting game");
+        } else {
+            System.out.println("Enter only Y or N");
+            System.out.println();
+            newPlayer = scanner.next();
+        }
+        saveFile.store(out, "Player Save File");
+        out.close();
+    }
+
 
     //save-game.properties is set by default to null/0 values and then overwritten by the newPlayerCreator
 
     public Properties getSaveFile() throws IOException {
         try {
-            save = new Properties();
+            saveFile = new Properties();
             in = new FileInputStream(saveGame);
-            save.load(in);
+            saveFile.load(in);
         } catch (IOException e) {
             e.printStackTrace();
-        }return save;
+        }return saveFile;
     }
 
 }
