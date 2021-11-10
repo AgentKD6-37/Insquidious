@@ -32,7 +32,7 @@ public class RedLightGreenLight {
             "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "12. Ho-seok", "Nam-joon",
             "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
     private int playerSpd; //TODO READ SPEED FROM SAVE FILE, right now just using default values
-    private String playerName = save.getProperty("playerName");
+    private String playerName;
 
     /*
      * Game logic!
@@ -41,6 +41,8 @@ public class RedLightGreenLight {
         int playerTime;
 
         loadPlayerProperties();
+        playerName = save.getProperty("playerName");
+        humanPlayer = new MainPlayer(playerName, 3);
 
         Scanner scanner = new Scanner(System.in);   //Setting up for user input
         String playerInput = scanner.next();
