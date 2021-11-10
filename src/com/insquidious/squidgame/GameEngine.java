@@ -78,7 +78,7 @@ public class GameEngine {
      * Launches game by invoking the game manager
      */
 
-    private void dormMenu() throws IOException {
+    private void dormMenu() throws IOException, InterruptedException {
         menuManager.dormMenuFiles();
         System.out.println(" ");
         Scanner playerInput = new Scanner(System.in);
@@ -89,7 +89,8 @@ public class GameEngine {
             choice = playerInput.nextInt();
         } else if (choice == 1) {
             RedLightGreenLight game1 = new RedLightGreenLight();
-            game1.redLightGreenLight();
+            Boolean didLive = game1.redLightGreenLight();
+            endMenu(didLive);
         } else if (choice == 2) {
             gameListMenu();
         } else if (choice == 3){
@@ -97,7 +98,7 @@ public class GameEngine {
         }
         }
 
-    private void gameListMenu() throws IOException {
+    private void gameListMenu() throws IOException, InterruptedException {
         System.out.println("THERE IS CURRENTLY ONLY ONE GAME TO PLAY");
         dormMenu();
     }
