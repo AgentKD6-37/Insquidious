@@ -40,10 +40,9 @@ public class RedLightGreenLight {
      * Game logic!
      */
 
-    private boolean redLightGreenLight() throws IOException {
+    public boolean redLightGreenLight() throws IOException {
         loadPlayerProperties();
         Scanner scanner = new Scanner(System.in);
-        String playerInput = scanner.next();
         Dice d6 = new Dice();
 
         ComputerPlayer aiPlayers;
