@@ -46,13 +46,10 @@ public class RedLightGreenLight {
 
         Scanner playerDist = new Scanner(System.in);   //Setting up for user input
 
-        Dice d6 = new Dice();   //random rolls for Computer and Enemy
-
-        System.out.println("Dice Generated");
+        Dice d20Enemy = new Dice(20);   //random rolls for Enemy
+        Dice d6Comp = new Dice();      //random rolls for Comp
 
         addPlayers();
-
-        System.out.println(listOfPlayers);
 
         initPlayerLocation();   //assign player spots on the board and fill the array
         drawBoard();
@@ -60,45 +57,46 @@ public class RedLightGreenLight {
         //TODO: maybe change logic control overall to while round > 0 && humanPlayer.isAlive()
         int round = TIMER;  //right now not used
 
-        //while(playerPos[][]!=[id][100]||timer !=0){
-        //timer control
-        for (int i = TIMER; i > 0; i--) {
-            //assign random number to "catch" players if they move too far
-            int enemy = d6.dieRoller();
+        while(humanPlayer.isAlive() || humanPlayer.getyCoordinate() != 100){
+            //timer control
+            for (int i = TIMER; i > 0; i--) {
+                //assign random number to "catch" players if they move too far
+                int enemy = d20Enemy.dieRoller();
 
-            //cycle through all players getting their movement
-            for (Player player : listOfPlayers) {
-                //Get movement distance for Player objects
-                if (player instanceof MainPlayer) {
-                    //should possibly be replaced with a game engine method gameEngineSay()?
-                    System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-100]");
-                    choice = playerDist.nextInt();
-
-                    //input validation
-                    if (choice < 1 || choice > 100) {
+                //cycle through all players getting their movement
+                for (Player player : listOfPlayers) {
+                    //Get movement distance for Player objects
+                    if (player instanceof MainPlayer) {
                         //should possibly be replaced with a game engine method gameEngineSay()?
-                        System.out.println("Number must be between 1-100");
+                        System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-50]");
                         choice = playerDist.nextInt();
-                    }
 
-                    playerTime = choice / player.getPlayerSpd();    //calculate time from chosen player distance
-                    checkElimination(playerTime, enemy, player);
+                        //input validation
+                        if (choice < 1 || choice > 50) {
+                            //should possibly be replaced with a game engine method gameEngineSay()?
+                            System.out.println("Number must be between 1-50");
+                            choice = playerDist.nextInt();
+                        }
 
-                }else{  //this is the movement logic for Computer, assigned random rolled distance
-                    if(player.isAlive()) {
-                        choice = d6.dieRoller();  //random number for computer player movement
-
-                        playerTime = choice / player.getPlayerSpd();
+                        playerTime = choice / player.getPlayerSpd();    //calculate time from chosen player distance
                         checkElimination(playerTime, enemy, player);
+
+                    }else{  //this is the movement logic for Computer, assigned random rolled distance
+                        if(player.isAlive()) {
+                            choice = d6Comp.dieRoller();  //random number for computer player movement
+
+                            playerTime = choice / player.getPlayerSpd();
+                            checkElimination(playerTime, enemy, player);
+                        }
                     }
+
+                    updatePlayerLocation(player, choice);   //move current player across the board
+
                 }
+            drawBoard();
 
-                updatePlayerLocation(player, choice);   //move current player across the board
-
+            round--;
             }
-        drawBoard();
-
-        round--;
         }
         return true;
     }
@@ -162,7 +160,7 @@ public class RedLightGreenLight {
 
     public void updatePlayerLocation (Player player, int distance) {
         int move = player.getyCoordinate();
-        int oldY = player.getPlayerID();
+        int oldY = player.getyCoordinate();
         move = move + distance;
         if (player.isAlive()) {
             player.setyCoordinate(move);
@@ -173,27 +171,21 @@ public class RedLightGreenLight {
 
     // TODO: Change AI from X to O when dead
     protected void drawBoard() {
-        System.out.println("-----------------------------------------------------------------------------------"+
-                "-----------------------------------------------------------------------------------"+
-                "-----------------------------------------------------------------------------------"+
-                "-----------------------------------------------------------------------------------"+
-                "-----------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------" +
+                "--------------------------------------------------");
         for (int i = 0; i < 20; i++) {
-            System.out.print("| ");
-            System.out.print(" ");
+            //System.out.print("|");
+            //System.out.print(" ");
             for (int j = 0; j < 100; j++) {
                 if (boardGrid[i][j] == null) {
-                    System.out.print("  | ");
+                    System.out.print(" ");
                 } else {
-                    System.out.print(boardGrid[i][j] + " | ");
+                    System.out.print(boardGrid[i][j]);
                 }
             }
             System.out.println();
-            System.out.println("-----------------------------------------------------------------------------------"+
-                    "-----------------------------------------------------------------------------------"+
-                    "-----------------------------------------------------------------------------------"+
-                    "-----------------------------------------------------------------------------------"+
-                    "-----------------------------------------------------------------------");
+            System.out.println("--------------------------------------------------" +
+                    "--------------------------------------------------");
         }
         System.out.println();
     }
