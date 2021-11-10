@@ -46,9 +46,6 @@ public class RedLightGreenLight {
 
         Scanner playerDist = new Scanner(System.in);   //Setting up for user input
 
-
-        //playerDist = scanner.nextInt();
-
         Dice d6 = new Dice();   //random rolls for Computer and Enemy
 
         System.out.println("Dice Generated");
