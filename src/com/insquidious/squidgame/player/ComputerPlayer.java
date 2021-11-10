@@ -1,4 +1,4 @@
-package com.insquidious.player;
+package com.insquidious.squidgame.player;
 
 
 import java.util.Random;

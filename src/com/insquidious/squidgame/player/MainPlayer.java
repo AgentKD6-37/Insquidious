@@ -1,6 +1,4 @@
-package com.insquidious.player;
-
-import java.util.ArrayList;
+package com.insquidious.squidgame.player;
 
 public class MainPlayer extends Player{
     private int attributePoints = 3; //start with 3 (will increase with additional stats/games)

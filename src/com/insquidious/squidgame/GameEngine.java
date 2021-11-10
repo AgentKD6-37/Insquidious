@@ -1,6 +1,6 @@
 package com.insquidious.squidgame;
 
-import com.insquidious.player.MainPlayer;
+import com.insquidious.squidgame.player.MainPlayer;
 
 import java.io.*;
 import java.nio.file.Files;
