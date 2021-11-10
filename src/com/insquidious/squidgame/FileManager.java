@@ -22,9 +22,11 @@ public class FileManager {
     public Properties saveFile;
 
     //returns the save file to the game engine to be read
-    public void getSaveFlag(Properties flag) throws IOException {
+    public Object getFlag(Properties flag) throws IOException {
+        saveFile = new Properties();
         in = new FileInputStream(saveGame);
-        //TODO
+        saveFile.load(in);
+        return saveFile.get(flag);
     }
 
     public void getAssetFile (String fileName) throws IOException{
