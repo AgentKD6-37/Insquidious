@@ -1,6 +1,8 @@
 package com.insquidious.squidgame;
 
 import com.insquidious.squidgame.player.MainPlayer;
+import com.insquidious.player.MainPlayer;
+import com.insquidious.squidgame.board.RedLightGreenLight;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -71,14 +73,6 @@ public class GameEngine {
         player1.setPlayerName((String) saveFile.get("playerName"));
     }
 
-
-    public Object getFlag(Properties flag) throws IOException {
-        saveFile = new Properties();
-        in = new FileInputStream(saveGame);
-        saveFile.load(in);
-        return saveFile.get(flag);
-    }
-
     /*
      * Launches game by invoking the game manager
      */
@@ -93,8 +87,8 @@ public class GameEngine {
             System.out.print("");
             choice = playerInput.nextInt();
         } else if (choice == 1) {
-            System.out.println("launching game");
-            //TODO READ BOOLEAN
+            RedLightGreenLight game1 = new RedLightGreenLight();
+            game1.redLightGreenLight();
         } else if (choice == 2) {
             gameListMenu();
         } else if (choice == 3){
@@ -113,8 +107,9 @@ public class GameEngine {
 
     private void endMenu(boolean bool) throws IOException, InterruptedException {
         //placeholder. eliminatedMenu loads by default.
-        //TODO: Implement read from save file to determine if win, then display winner art.
+        //TODO IF TRUE WIN IF FALSE LOSE
         menuManager.eliminatedMenuFiles();
+        menuManager.winnerMenuFiles();
         Scanner playerInput = new Scanner(System.in);
         int choice = playerInput.nextInt();
         if (choice < 1 || choice > 2) {
@@ -125,7 +120,6 @@ public class GameEngine {
             execute();
         } else if (choice == 2) {
             System.exit(0);
-
         }
     }
 
