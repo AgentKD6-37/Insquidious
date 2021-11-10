@@ -48,7 +48,7 @@ public class FileManager {
         saveFile.put("playerName", name);
         saveFile.put("rlglComplete", Boolean.toString(false));
         saveFile.put("isAlive", Boolean.toString(true));
-        saveFile.put("playerSpd",7);
+        saveFile.put("playerSpd","7");
         System.out.print("Have you played this game before? [Y/N] : ");
         System.out.println();
         String newPlayer = scanner.next();
