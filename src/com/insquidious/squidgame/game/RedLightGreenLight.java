@@ -25,11 +25,10 @@ public class RedLightGreenLight {
     private Properties save;
     MainPlayer humanPlayer;
     ComputerPlayer aiPlayer;
-    private int playerDist;
     private String[][] boardGrid = new String[20][100];
     private ArrayList<Player> listOfPlayers = new ArrayList<>();
     private String[] computerPlayerNames = {"Gi-Hun", "Sae-Byeok", "Ji-yeong", "Sang-woo", "Ali", "Il-nam",
-            "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "12. Ho-seok", "Nam-joon",
+            "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "Ho-seok", "Nam-joon",
             "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
     private int playerSpd; //TODO READ SPEED FROM SAVE FILE, right now just using default values
     private String playerName;
@@ -39,17 +38,25 @@ public class RedLightGreenLight {
      */
     public boolean redLightGreenLight() throws IOException {
         int playerTime;
+        int choice = 0;
 
         loadPlayerProperties();
         playerName = save.getProperty("playerName");
         humanPlayer = new MainPlayer(playerName, 3);
 
-        Scanner scanner = new Scanner(System.in);   //Setting up for user input
-        String playerInput = scanner.next();
+        Scanner playerDist = new Scanner(System.in);   //Setting up for user input
+
+
+        //playerDist = scanner.nextInt();
 
         Dice d6 = new Dice();   //random rolls for Computer and Enemy
 
+        System.out.println("Dice Generated");
+
         addPlayers();
+
+        System.out.println(listOfPlayers);
+
         initPlayerLocation();   //assign player spots on the board and fill the array
         drawBoard();
 
@@ -68,28 +75,28 @@ public class RedLightGreenLight {
                 if (player instanceof MainPlayer) {
                     //should possibly be replaced with a game engine method gameEngineSay()?
                     System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-100]");
-                    this.playerDist = (scanner.nextInt());
+                    choice = playerDist.nextInt();
 
                     //input validation
-                    if (this.playerDist < 1 || this.playerDist > 100) {
+                    if (choice < 1 || choice > 100) {
                         //should possibly be replaced with a game engine method gameEngineSay()?
                         System.out.println("Number must be between 1-100");
-                        this.playerDist = scanner.nextInt();
+                        choice = playerDist.nextInt();
                     }
 
-                    playerTime = playerDist / player.getPlayerSpd();    //calculate time from chosen player distance
+                    playerTime = choice / player.getPlayerSpd();    //calculate time from chosen player distance
                     checkElimination(playerTime, enemy, player);
 
                 }else{  //this is the movement logic for Computer, assigned random rolled distance
                     if(player.isAlive()) {
-                        playerDist = d6.dieRoller();  //random number for computer player movement
+                        choice = d6.dieRoller();  //random number for computer player movement
 
-                        playerTime = playerDist / player.getPlayerSpd();
+                        playerTime = choice / player.getPlayerSpd();
                         checkElimination(playerTime, enemy, player);
                     }
                 }
 
-                updatePlayerLocation(player, playerDist);   //move current player across the board
+                updatePlayerLocation(player, choice);   //move current player across the board
 
             }
         drawBoard();
@@ -111,18 +118,18 @@ public class RedLightGreenLight {
      */
     private void addPlayers() {
         //creating AI players and adding them to the board
-        Integer[] id = new Integer[(AI_PLAYER_COUNT + 1)];  //this array will hold all possible id numbers
-        for(int i = 0; i != AI_PLAYER_COUNT; i++){
+
+        for(int i = 0; i < AI_PLAYER_COUNT; i++){
             aiPlayer = new ComputerPlayer(computerPlayerNames[i]);
             listOfPlayers.add(aiPlayer);
-            id[i] = i+1;    //add a number to the pool of available id's (based on AI_PLAYER_COUNT)
         }
         //finally, add human player
         listOfPlayers.add(humanPlayer);
-        //assigning random id's to each player
-        Collections.shuffle(Arrays.asList(id)); //shuffles the available pool of id's
+        //assigning id's to each player
+        System.out.println(listOfPlayers.size());
         for (int i = 0; i < listOfPlayers.size(); i++) {
-            listOfPlayers.get(i).setPlayerID(id[i]);
+            System.out.println("assigning ids " + i);
+            listOfPlayers.get(i).setPlayerID(i);
         }
     }
 
@@ -176,7 +183,7 @@ public class RedLightGreenLight {
                 "-----------------------------------------------------------------------");
         for (int i = 0; i < 20; i++) {
             System.out.print("| ");
-            System.out.print("O" + " ");
+            System.out.print(" ");
             for (int j = 0; j < 100; j++) {
                 if (boardGrid[i][j] == null) {
                     System.out.print("  | ");
