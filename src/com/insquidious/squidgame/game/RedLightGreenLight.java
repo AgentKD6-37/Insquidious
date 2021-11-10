@@ -180,10 +180,9 @@ public class RedLightGreenLight {
                 "-----------------------------------------------------------------------");
         for (int i = 0; i < 20; i++) {
             System.out.print("| ");
-            System.out.print(" ");
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < 60; j++) {
                 if (boardGrid[i][j] == null) {
-                    System.out.print("  | ");
+                    System.out.print(" | ");
                 } else {
                     System.out.print(boardGrid[i][j] + " | ");
                 }
