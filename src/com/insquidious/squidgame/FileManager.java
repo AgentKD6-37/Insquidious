@@ -22,8 +22,9 @@ public class FileManager {
     public Properties saveFile;
 
     //returns the save file to the game engine to be read
-    public void getSaveFile(Properties flag) throws IOException {
+    public void getSaveFlag(Properties flag) throws IOException {
         in = new FileInputStream(saveGame);
+        //TODO
     }
 
     public void getAssetFile (String fileName) throws IOException{

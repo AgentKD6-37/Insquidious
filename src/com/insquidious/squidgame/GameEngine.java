@@ -94,6 +94,7 @@ public class GameEngine {
             choice = playerInput.nextInt();
         } else if (choice == 1) {
             System.out.println("launching game");
+            //TODO READ BOOLEAN
         } else if (choice == 2) {
             gameListMenu();
         } else if (choice == 3){
@@ -110,7 +111,7 @@ public class GameEngine {
      * End menu allows the player to exist after win or elimination.
      */
 
-    private void endMenu() throws IOException, InterruptedException {
+    private void endMenu(boolean bool) throws IOException, InterruptedException {
         //placeholder. eliminatedMenu loads by default.
         //TODO: Implement read from save file to determine if win, then display winner art.
         menuManager.eliminatedMenuFiles();
