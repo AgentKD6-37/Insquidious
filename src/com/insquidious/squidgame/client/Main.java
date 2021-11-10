@@ -1,4 +1,6 @@
-package com.insquidious.squidgame;
+package com.insquidious.squidgame.client;
+
+import com.insquidious.squidgame.GameEngine;
 
 import java.io.IOException;
 

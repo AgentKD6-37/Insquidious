@@ -1,5 +1,4 @@
-package com.insquidious.player;
-
+package com.insquidious.squidgame.player;
 
 import java.util.Random;
 
@@ -33,7 +32,7 @@ public class ComputerPlayer extends Player{
         return "ComputerPlayer{" +
                 "maxSpeed=" + MAX_SPEED +
                 ", isAlive=" + isAlive +
-                ", playerName='" + playerName + '\'' +
+                ", playerName='" + playerName +
                 ", playerSpd=" + playerSpd +
                 ", playerDist=" + playerDist +
                 ", yCoordinate=" + yCoordinate +

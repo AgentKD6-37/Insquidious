@@ -8,7 +8,7 @@
 *           Default to rolling 1, six-sided die.
 */
 
-package com.insquidious.helpers;
+package com.insquidious.squidgame.util;
 
 import java.util.Random;
 
