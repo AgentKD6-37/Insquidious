@@ -20,10 +20,8 @@ public class RedLightGreenLight {
     private FileManager fileManager = new FileManager();
     private Properties save;
     private String playerName = save.getProperty("playerName");
-    MainPlayer humanPlayer;
-    ComputerPlayer aiPlayer;
-    private int aiPlayerID; //TODO MAKE AI PLAYER ID LIST
-    private int playerSpd = Integer.parseInt(save.getProperty("playerSpd"));
+    MainPlayer humanPlayer = new MainPlayer(playerName);
+    private int playerSpd;
     private int playerDist;
     private int enemy;
     private int timer = 120;
@@ -34,7 +32,11 @@ public class RedLightGreenLight {
     private String[] computerPlayerNames = {"Gi-Hun", "Sae-Byeok", "Ji-yeong", "Sang-woo", "Ali", "Il-nam",
             "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "12. Ho-seok", "Nam-joon",
             "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
-
+    private String[][] boardGrid = new String[20][100];
+    private ArrayList<Player> listOfPlayers = new ArrayList<>();
+    private String[] computerPlayerNames = {"Gi-Hun", "Sae-Byeok", "Ji-yeong", "Sang-woo", "Ali", "Il-nam",
+            "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "12. Ho-seok", "Nam-joon",
+            "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
 
     /*
      * Game logic!
