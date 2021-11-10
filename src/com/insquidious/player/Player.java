@@ -1,5 +1,7 @@
 package com.insquidious.player;
 
+import com.insquidious.helpers.Dice;
+
 public abstract class Player {
     //fields
     protected boolean isAlive;//No need in constructor because every player is alive
@@ -7,6 +9,8 @@ public abstract class Player {
     protected int playerSpd;
     protected int playerDist = 0;
     protected int yCoordinate = 0;
+    protected int playerID;
+    Dice d20 = new Dice(20);
 
     public Player(String playerName)
     {
@@ -46,12 +50,12 @@ public abstract class Player {
         this.playerSpd = playerSpd;
     }
 
-    public int getPlayerDist() {
-        return playerDist;
+    public void setPlayerID(){
+       playerID = d20.dieRoller();
     }
 
-    public void setPlayerDist(int playerDist) {
-        this.playerDist = playerDist;
+    public int getPlayerID(){
+        return playerID;
     }
 
     public int getyCoordinate() {

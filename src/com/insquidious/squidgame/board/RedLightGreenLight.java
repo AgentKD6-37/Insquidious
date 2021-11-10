@@ -20,24 +20,31 @@ public class RedLightGreenLight {
     private FileManager fileManager = new FileManager();
     private Properties save;
     private String playerName = save.getProperty("playerName");
-    MainPlayer humanPlayer = new MainPlayer(playerName);
-    private int playerSpd;
+    MainPlayer humanPlayer;
+    ComputerPlayer aiPlayer;
+    private int aiPlayerID; //TODO MAKE AI PLAYER ID LIST
+    private int playerSpd; //TODO READ SPEED FROM SAVE FILE
     private int playerDist;
     private int enemy;
     private int timer = 120;
     private int playerTime = playerDist / playerSpd;
     private static final int AI_PLAYER_COUNT = 19;
+    private String[][] boardGrid = new String[20][100];
+    private ArrayList<Player> listOfPlayers = new ArrayList<>();
+    private String[] computerPlayerNames = {"Gi-Hun", "Sae-Byeok", "Ji-yeong", "Sang-woo", "Ali", "Il-nam",
+            "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "12. Ho-seok", "Nam-joon",
+            "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
 
 
-    private boolean redLightGreenLight(int players) {
+    /*
+     * Game logic!
+     */
+
+    private boolean redLightGreenLight() throws IOException {
+        loadPlayerProperties();
         Scanner scanner = new Scanner(System.in);
         String playerInput = scanner.next();
         Dice d6 = new Dice();
-        ArrayList<Player> listOfPlayers = new ArrayList<>();
-
-        String[] computerPlayerNames = {"Gi-Hun", "Sae-Byeok", "Ji-yeong", "Sang-woo", "Ali", "Il-nam",
-                "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "12. Ho-seok", "Nam-joon",
-                "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
 
         ComputerPlayer aiPlayers;
         for(int i = 0; i < AI_PLAYER_COUNT; i++){
@@ -52,19 +59,21 @@ public class RedLightGreenLight {
             enemy = d6.dieRoller();
             for (Object player : listOfPlayers) {
                 if (player == this.humanPlayer) {
+                    //should possibly be replaced with a game engine method gameEngineSay()?
                     System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-100]");
                     this.playerDist = scanner.nextInt();
                     if (this.playerDist < 1 || this.playerDist > 100) {
+                        //should possibly be replaced with a game engine method gameEngineSay()?
                         System.out.println("Number must be between 1-100");
                         this.playerDist = scanner.nextInt();
                     }
                 }else{
-                    //if(aiIsAlive){
+                    //TODO  if(aiIsAlive){
                     int aiPlayerDist = d6.dieRoller();
                     int aiPlayerTime = aiPlayerDist/5;
                     if(aiPlayerTime > enemy){
-                        //AI changes from O to X on board
-                        //AI is set to dead
+                        //TODO AI changes from O to X on board
+                        //TODO AI is set to dead
                     }
                 }
             }
@@ -72,11 +81,49 @@ public class RedLightGreenLight {
                 humanPlayer.setAlive(false);
                 return false;
             }else{
-                //playerPos[][] = playerPos[id][x+playerDist]
+                //TODO playerPos[][] = playerPos[id][y+playerDist]
             }
         timer--;
         }
         return true;
+    }
+
+    public void updatePlayerLocation(int y, Player player) {
+        for (Player playerElement: listOfPlayers )
+            if (playerElement == humanPlayer) {
+                int x = humanPlayer.getPlayerID();
+                boardGrid[y][x] = "P";
+            }else{
+                int x = aiPlayerID;
+                boardGrid[y][x] = "O";
+            }
+
+    }
+
+    protected void drawBoard() {
+        System.out.println("-----------------------------------------------------------------------------------"+
+                "-----------------------------------------------------------------------------------"+
+                "-----------------------------------------------------------------------------------"+
+                "-----------------------------------------------------------------------------------"+
+                "-----------------------------------------------------------------------");
+        for (int i = 0; i < 20; i++) {
+            System.out.print("O" + " ");
+            System.out.print("| ");
+            for (int j = 0; j < 100; j++) {
+                if (boardGrid[i][j] == null) {
+                    System.out.print("  | ");
+                } else {
+                    System.out.print(boardGrid[i][j] + " | ");
+                }
+            }
+            System.out.println();
+            System.out.println("-----------------------------------------------------------------------------------"+
+                    "-----------------------------------------------------------------------------------"+
+                    "-----------------------------------------------------------------------------------"+
+                    "-----------------------------------------------------------------------------------"+
+                    "-----------------------------------------------------------------------");
+        }
+        System.out.println();
     }
 
     private void loadPlayerProperties() throws IOException {

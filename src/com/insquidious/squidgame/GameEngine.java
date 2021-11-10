@@ -17,7 +17,6 @@ public class GameEngine {
     private Scanner scanner = new Scanner(System.in);
     private String saveGame = "Assets/save-game.properties";
     private MenuManager menuManager = new MenuManager();
-    private MainPlayer player1 = new MainPlayer("Gi-hun");
     private FileManager fileManager = new FileManager();
     Properties saveFile;
 
@@ -41,11 +40,12 @@ public class GameEngine {
                 choice = playerInput.nextInt();
 
             } else if (choice == 1) { //Create new player
-                newPlayerCreator();
+                fileManager.newPlayerCreator();
+                dormMenu();
                 break;
             } else if (choice == 2) { //Continue from save file
                 try {
-                    playerRetrieveFromSave();
+                    fileManager.getSaveFile();
                     dormMenu();
                 } catch(NullPointerException e){
                     System.out.println("No save game available!");
@@ -62,48 +62,6 @@ public class GameEngine {
 
 
     }
-
-    /*
-     * Creates a new player save file off the inputs.
-     */
-    void newPlayerCreator() throws IOException, InterruptedException {
-        saveFile = new Properties();
-        in = new FileInputStream(saveGame);
-        saveFile.load(in);
-        in.close();
-        out = new FileOutputStream(saveGame);
-        System.out.print("What is your name? : ");
-        System.out.println();
-        String name = scanner.next();
-        saveFile.put("playerName", name);
-        saveFile.put("rlglComplete", Boolean.toString(false));
-        saveFile.put("isAlive", Boolean.toString(true));
-        System.out.print("Have you played this game before? [Y/N] : ");
-        System.out.println();
-        String newPlayer = scanner.next();
-        if (newPlayer.equals("N")) {
-            saveFile.put("newPlayer", Boolean.toString(true));
-            fileManager.getAssetFile("new-player-story.txt");
-            dormMenu();
-        }else if (newPlayer.equals("Y")){
-            dormMenu();
-        } else {
-            System.out.println("Enter only Y or N");
-            System.out.println();
-            newPlayer = scanner.next();
-        }
-        saveFile.store(out, "Player Save File");
-        out.close();
-    }
-
-    void playerRetrieveFromSave() throws IOException, InterruptedException {
-        saveFile = new Properties();
-        in = new FileInputStream(saveGame);
-        saveFile.load(in);
-        in.close();
-        player1.setName((String) saveFile.get("playerName"));
-    }
-
 
     public Object getFlag(Properties flag) throws IOException {
         saveFile = new Properties();
