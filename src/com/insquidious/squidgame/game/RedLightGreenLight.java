@@ -38,6 +38,8 @@ public class RedLightGreenLight {
      * Game logic!
      */
     private boolean redLightGreenLight() throws IOException {
+        int playerTime;
+
         loadPlayerProperties();
 
         Scanner scanner = new Scanner(System.in);   //Setting up for user input
@@ -47,6 +49,7 @@ public class RedLightGreenLight {
 
         addPlayers();
         initPlayerLocation();   //assign player spots on the board and fill the array
+        drawBoard();
 
         //TODO: maybe change logic control overall to while round > 0 && humanPlayer.isAlive()
         int round = TIMER;  //right now not used
@@ -64,25 +67,31 @@ public class RedLightGreenLight {
                     //should possibly be replaced with a game engine method gameEngineSay()?
                     System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-100]");
                     this.playerDist = (scanner.nextInt());
+
                     //input validation
                     if (this.playerDist < 1 || this.playerDist > 100) {
                         //should possibly be replaced with a game engine method gameEngineSay()?
                         System.out.println("Number must be between 1-100");
                         this.playerDist = scanner.nextInt();
                     }
-                    int playerTime = playerDist / playerSpd;    //calculate time from chosen player distance
+
+                    playerTime = playerDist / player.getPlayerSpd();    //calculate time from chosen player distance
                     checkElimination(playerTime, enemy, player);
+
                 }else{  //this is the movement logic for Computer, assigned random rolled distance
                     if(player.isAlive()) {
-                        int aiPlayerDist = d6.dieRoller();  //random number for computer player movement
-                        int aiPlayerTime = aiPlayerDist / player.getPlayerSpd();
-                        aiPlayerTime = playerDist / playerSpd;
-                        checkElimination(aiPlayerTime, enemy, player);
+                        playerDist = d6.dieRoller();  //random number for computer player movement
+
+                        playerTime = playerDist / player.getPlayerSpd();
+                        checkElimination(playerTime, enemy, player);
                     }
                 }
 
+                updatePlayerLocation(player, playerDist);   //move current player across the board
+
             }
-                //TODO playerPos[][] = playerPos[id][y+playerDistance
+        drawBoard();
+
         round--;
         }
         return true;
@@ -137,26 +146,26 @@ public class RedLightGreenLight {
     private void checkElimination(int time, int enemy, Player player) {
         if(time > enemy) {
             player.setAlive(false);
+            boardGrid[player.getPlayerID()][player.getyCoordinate()] = "X";
         }
     }
 
-
-
-
-
-    // TODO: Create function to move players on board
     /*
     * Updates player location each round
     */
-    // TODO: Change AI from X to O when dead
-    public void updatePlayerLocation (Player player) {
-        if (player instanceof MainPlayer) {
 
-        }else {
-
+    public void updatePlayerLocation (Player player, int distance) {
+        int move = player.getyCoordinate();
+        int oldY = player.getPlayerID();
+        move = move + distance;
+        if (player.isAlive()) {
+            player.setyCoordinate(move);
+            boardGrid[player.getPlayerID()][move] = "O";
+            boardGrid[player.getPlayerID()][oldY] = " ";
         }
     }
 
+    // TODO: Change AI from X to O when dead
     protected void drawBoard() {
         System.out.println("-----------------------------------------------------------------------------------"+
                 "-----------------------------------------------------------------------------------"+
@@ -164,8 +173,8 @@ public class RedLightGreenLight {
                 "-----------------------------------------------------------------------------------"+
                 "-----------------------------------------------------------------------");
         for (int i = 0; i < 20; i++) {
-            System.out.print("O" + " ");
             System.out.print("| ");
+            System.out.print("O" + " ");
             for (int j = 0; j < 100; j++) {
                 if (boardGrid[i][j] == null) {
                     System.out.print("  | ");
@@ -182,7 +191,6 @@ public class RedLightGreenLight {
         }
         System.out.println();
     }
-
 
 
 }
