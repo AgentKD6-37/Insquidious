@@ -5,15 +5,16 @@ import java.util.Random;
 
 public class ComputerPlayer extends Player{
     private static final int MAX_SPEED = 4;
+    private static final int MIN_SPEED = 1;
 
     public ComputerPlayer(String playerName){
         super(playerName);
         setPlayerSpd(playerSpd);
     };
 
-    private int generateRandomSpeed( int MAX_SPEED){
+    private int generateRandomSpeed( int MIN_SPEED, int MAX_SPEED){
         Random randomSpeed = new Random();
-        return playerSpd = randomSpeed.nextInt(MAX_SPEED);
+        return playerSpd = randomSpeed.nextInt(MAX_SPEED - MIN_SPEED) + MIN_SPEED;
     }
 
 
@@ -24,7 +25,7 @@ public class ComputerPlayer extends Player{
 
     @Override
     public void setPlayerSpd(int playerSpd) {
-        this.playerSpd = generateRandomSpeed(MAX_SPEED);
+        this.playerSpd = generateRandomSpeed(MIN_SPEED, MAX_SPEED);
     }
 
     @Override

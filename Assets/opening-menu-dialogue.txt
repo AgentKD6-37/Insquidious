@@ -8,4 +8,4 @@ Welcome. Would you like to play?
 | 4 - Exit                  |
  ---------------------------
 
-Please select a number to continue: 
+Please select a number to continue

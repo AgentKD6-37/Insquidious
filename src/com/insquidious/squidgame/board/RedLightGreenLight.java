@@ -21,9 +21,9 @@ public class RedLightGreenLight {
     private Properties save;
     private String playerName = save.getProperty("playerName");
     MainPlayer humanPlayer;
-    ComputerPlayer aiPlayer;
+    ComputerPlayer aiPlayers;
     private int aiPlayerID; //TODO MAKE AI PLAYER ID LIST
-    private int playerSpd = Integer.parseInt(save.getProperty("playerSpd"));
+    private int playerSpd; //TODO READ SPEED FROM SAVE FILE
     private int playerDist;
     private int enemy;
     private int timer = 120;
@@ -32,7 +32,7 @@ public class RedLightGreenLight {
     private String[][] boardGrid = new String[20][100];
     private ArrayList<Player> listOfPlayers = new ArrayList<>();
     private String[] computerPlayerNames = {"Gi-Hun", "Sae-Byeok", "Ji-yeong", "Sang-woo", "Ali", "Il-nam",
-            "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "12. Ho-seok", "Nam-joon",
+            "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "Ho-seok", "Nam-joon",
             "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
 
 
@@ -43,15 +43,17 @@ public class RedLightGreenLight {
     public boolean redLightGreenLight() throws IOException {
         loadPlayerProperties();
         Scanner scanner = new Scanner(System.in);
+        String playerInput = scanner.next();
         Dice d6 = new Dice();
 
-        ComputerPlayer aiPlayers;
+
         for(int i = 0; i < AI_PLAYER_COUNT; i++){
             aiPlayers = new ComputerPlayer(computerPlayerNames[i]);
             listOfPlayers.add(aiPlayers);
         }
 
         listOfPlayers.add(humanPlayer);
+
         int Round = 0;
         //while(playerPos[][]!=[id][100]||timer !=0){
         for (int i = timer; i > 0; i--) {

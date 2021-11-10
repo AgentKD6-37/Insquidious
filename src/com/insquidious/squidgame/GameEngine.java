@@ -108,18 +108,33 @@ public class GameEngine {
     private void endMenu(boolean bool) throws IOException, InterruptedException {
         //placeholder. eliminatedMenu loads by default.
         //TODO IF TRUE WIN IF FALSE LOSE
-        menuManager.eliminatedMenuFiles();
-        menuManager.winnerMenuFiles();
-        Scanner playerInput = new Scanner(System.in);
-        int choice = playerInput.nextInt();
-        if (choice < 1 || choice > 2) {
-            System.out.println("Enter \"1\" or \"2\"");
-            System.out.println(" ");
-            choice = playerInput.nextInt();
-        } else if (choice == 1) {
-            execute();
-        } else if (choice == 2) {
-            System.exit(0);
+        if(bool){
+            menuManager.winnerMenuFiles();
+            Scanner playerInput = new Scanner(System.in);
+            int choice = playerInput.nextInt();
+            if (choice < 1 || choice > 2) {
+                System.out.println("Enter \"1\" or \"2\"");
+                System.out.println(" ");
+                choice = playerInput.nextInt();
+            } else if (choice == 1) {
+                execute();
+            } else if (choice == 2) {
+                System.exit(0);
+            }
+        }
+        else {
+            menuManager.eliminatedMenuFiles();
+            Scanner playerInput = new Scanner(System.in);
+            int choice = playerInput.nextInt();
+            if (choice < 1 || choice > 2) {
+                System.out.println("Enter \"1\" or \"2\"");
+                System.out.println(" ");
+                choice = playerInput.nextInt();
+            } else if (choice == 1) {
+                execute();
+            } else if (choice == 2) {
+                System.exit(0);
+            }
         }
     }
 
