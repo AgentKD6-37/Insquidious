@@ -11,21 +11,17 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class GameEngine {
-    //static methods and fields
-
-    private String saveGame = "Assets/save-game.properties";
-    private final MenuManager menuManager = new MenuManager();
+    //fields
     private final MainPlayer player1 = new MainPlayer("Gi-hun", 7);
     private final FileManager fileManager = new FileManager();
     Properties saveFile;
 
-
-    //business methods
+    //**business methods
 
     //runs the game and calls methods to continue through menus
     public void execute() throws IOException, InterruptedException {
         //load opening menu
-        menuManager.MenuFiles();
+        fileManager.MenuFiles();
         System.out.println(":");
         Scanner playerInput = new Scanner(System.in);
         int choice = playerInput.nextInt();
@@ -66,6 +62,8 @@ public class GameEngine {
     void playerRetrieveFromSave() throws IOException, InterruptedException {
         saveFile = new Properties();
         //private fields
+        // class fields
+        String saveGame = "Assets/save-game.properties";
         InputStream in = new FileInputStream(saveGame);
         saveFile.load(in);
         in.close();
@@ -77,7 +75,7 @@ public class GameEngine {
      */
 
     private void dormMenu() throws IOException, InterruptedException {
-        menuManager.dormMenuFiles();
+        fileManager.dormMenuFiles();
         System.out.println(" ");
         Scanner playerInput = new Scanner(System.in);
         int choice = playerInput.nextInt();
@@ -111,9 +109,9 @@ public class GameEngine {
     private void endMenu(boolean bool) throws IOException, InterruptedException {
         Scanner playerInput = new Scanner(System.in);
         if (bool) {
-            menuManager.winnerMenuFiles();
+            fileManager.winnerMenuFiles();
         } else {
-            menuManager.eliminatedMenuFiles();
+            fileManager.eliminatedMenuFiles();
         }
         System.out.print("");
         System.out.print("Please select an option: ");
@@ -137,43 +135,6 @@ public class GameEngine {
             System.in.read();
         } catch(Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public static class MenuManager {
-        //holds methods for retrieving files.
-
-        public void getAssetFile(String fileName) throws IOException {
-            String art = "Assets/" + fileName;
-            var out = new BufferedOutputStream(System.out);
-            Files.copy(Path.of(art), out);
-            out.flush();
-        }
-
-        public void MenuFiles() throws IOException {
-
-            getAssetFile("opening-menu-art.txt");
-            getAssetFile("opening-menu-banner.txt");
-            getAssetFile("opening-menu-dialogue.txt");
-        }
-
-        void dormMenuFiles() throws IOException {
-            getAssetFile("dorm-menu-art.txt");
-            getAssetFile("dorm-menu-dialogue.txt");
-        }
-
-        void eliminatedMenuFiles() throws IOException {
-            getAssetFile("eliminated-menu-art.txt");
-            getAssetFile("eliminated-menu-dialogue.txt");
-        }
-
-        void winnerMenuFiles() throws IOException {
-            getAssetFile("winner-menu-art.txt");
-            getAssetFile("winner-menu-dialogue.txt");
-        }
-
-        void gameListMenuFiles() throws IOException {
-            getAssetFile("game-list-menu-dialogue.txt");
         }
     }
 

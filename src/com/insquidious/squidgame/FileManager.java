@@ -1,6 +1,5 @@
 package com.insquidious.squidgame;
 
-import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,7 +35,7 @@ public class FileManager {
         out.flush();
     }
 
-    void newPlayerCreator() throws IOException, InterruptedException {
+    void newPlayerCreator() throws IOException{
         saveFile = new Properties();
         in = new FileInputStream(saveGame);
         saveFile.load(in);
@@ -65,6 +64,35 @@ public class FileManager {
         out.close();
     }
 
+    /*
+     * These methods load sets of asset files for different menus.
+     */
+
+    public void MenuFiles() throws IOException {
+
+        getAssetFile("opening-menu-art.txt");
+        getAssetFile("opening-menu-banner.txt");
+        getAssetFile("opening-menu-dialogue.txt");
+    }
+
+    void dormMenuFiles() throws IOException {
+        getAssetFile("dorm-menu-art.txt");
+        getAssetFile("dorm-menu-dialogue.txt");
+    }
+
+    void eliminatedMenuFiles() throws IOException {
+        getAssetFile("eliminated-menu-art.txt");
+        getAssetFile("eliminated-menu-dialogue.txt");
+    }
+
+    void winnerMenuFiles() throws IOException {
+        getAssetFile("winner-menu-art.txt");
+        getAssetFile("winner-menu-dialogue.txt");
+    }
+
+    void gameListMenuFiles() throws IOException {
+        getAssetFile("game-list-menu-dialogue.txt");
+    }
 
     //save-game.properties is set by default to null/0 values and then overwritten by the newPlayerCreator
 
