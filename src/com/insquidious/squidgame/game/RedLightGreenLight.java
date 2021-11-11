@@ -174,8 +174,6 @@ public class RedLightGreenLight {
         System.out.println("--------------------------------------------------" +
                 "--------------------------------------------------");
         for (int i = 0; i < 20; i++) {
-            //System.out.print("|");
-            //System.out.print(" ");
             for (int j = 0; j < 100; j++) {
                 if (boardGrid[i][j] == null) {
                     System.out.print(" ");
@@ -189,6 +187,4 @@ public class RedLightGreenLight {
         }
         System.out.println();
     }
-
-
 }

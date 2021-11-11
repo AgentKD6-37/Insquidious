@@ -44,6 +44,7 @@ public class GameEngine {
 
             } else if (choice == 1) { //Create new player
                 fileManager.newPlayerCreator();
+                dormMenu();
                 break;
             } else if (choice == 2) { //Continue from save file
                 try {
@@ -77,7 +78,7 @@ public class GameEngine {
      * Launches game by invoking the game manager
      */
 
-    private void dormMenu() throws IOException {
+    private void dormMenu() throws IOException, InterruptedException {
         menuManager.dormMenuFiles();
         System.out.println(" ");
         Scanner playerInput = new Scanner(System.in);
@@ -88,7 +89,8 @@ public class GameEngine {
             choice = playerInput.nextInt();
         } else if (choice == 1) {
             RedLightGreenLight game1 = new RedLightGreenLight();
-            game1.redLightGreenLight();
+            Boolean didLive = game1.redLightGreenLight();
+            endMenu(didLive);
         } else if (choice == 2) {
             gameListMenu();
         } else if (choice == 3){
@@ -96,7 +98,7 @@ public class GameEngine {
         }
         }
 
-    private void gameListMenu() throws IOException {
+    private void gameListMenu() throws IOException, InterruptedException {
         System.out.println("THERE IS CURRENTLY ONLY ONE GAME TO PLAY");
         dormMenu();
     }
@@ -108,18 +110,33 @@ public class GameEngine {
     private void endMenu(boolean bool) throws IOException, InterruptedException {
         //placeholder. eliminatedMenu loads by default.
         //TODO IF TRUE WIN IF FALSE LOSE
-        menuManager.eliminatedMenuFiles();
-        menuManager.winnerMenuFiles();
-        Scanner playerInput = new Scanner(System.in);
-        int choice = playerInput.nextInt();
-        if (choice < 1 || choice > 2) {
-            System.out.println("Enter \"1\" or \"2\"");
-            System.out.println(" ");
-            choice = playerInput.nextInt();
-        } else if (choice == 1) {
-            execute();
-        } else if (choice == 2) {
-            System.exit(0);
+        if(bool){
+            menuManager.winnerMenuFiles();
+            Scanner playerInput = new Scanner(System.in);
+            int choice = playerInput.nextInt();
+            if (choice < 1 || choice > 2) {
+                System.out.println("Enter \"1\" or \"2\"");
+                System.out.println(" ");
+                choice = playerInput.nextInt();
+            } else if (choice == 1) {
+                execute();
+            } else if (choice == 2) {
+                System.exit(0);
+            }
+        }
+        else {
+            menuManager.eliminatedMenuFiles();
+            Scanner playerInput = new Scanner(System.in);
+            int choice = playerInput.nextInt();
+            if (choice < 1 || choice > 2) {
+                System.out.println("Enter \"1\" or \"2\"");
+                System.out.println(" ");
+                choice = playerInput.nextInt();
+            } else if (choice == 1) {
+                execute();
+            } else if (choice == 2) {
+                System.exit(0);
+            }
         }
     }
 
