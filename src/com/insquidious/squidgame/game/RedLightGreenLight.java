@@ -92,8 +92,12 @@ public class RedLightGreenLight {
                     break;
                 }
             }
+            round--;
         }
-        return humanPlayer.isAlive();
+        if(round == 0){
+            humanPlayer.setAlive(false);
+        }
+            return humanPlayer.isAlive();
     }
 
     /*
@@ -116,7 +120,6 @@ public class RedLightGreenLight {
         //finally, add human player
         listOfPlayers.add(humanPlayer);
         //assigning id's to each player
-        System.out.println(listOfPlayers.size());
         for (int i = 0; i < listOfPlayers.size(); i++) {
             listOfPlayers.get(i).setPlayerID(i);
         }
