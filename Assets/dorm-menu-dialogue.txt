@@ -1,8 +1,5 @@
 
-You are in the dorms...
-
 A Masked man approaches:
-무엇을하고 싶으십니까?
 [WHAT WOULD YOU LIKE TO DO?]
                                  ___________________________
                                 | 1 - Play the next game    |

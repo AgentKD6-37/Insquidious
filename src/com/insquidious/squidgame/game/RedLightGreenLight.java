@@ -13,8 +13,8 @@ import java.util.*;
 
 public class RedLightGreenLight {
     /*
-    * Static Fields
-    */
+     * Static Fields
+     */
     public static final int AI_PLAYER_COUNT = 19;
     public static final int TIMER = 120;
 
@@ -54,10 +54,7 @@ public class RedLightGreenLight {
         initPlayerLocation();   //assign player spots on the board and fill the array
         drawBoard();
 
-        //TODO: maybe change logic control overall to while round > 0 && humanPlayer.isAlive()
-        int round = TIMER;  //right now not used
-
-        while(humanPlayer.isAlive() || humanPlayer.getyCoordinate() != 100){
+            int round = TIMER;  //right now not used
             //timer control
             for (int i = TIMER; i > 0; i--) {
                 //assign random number to "catch" players if they move too far
@@ -66,23 +63,21 @@ public class RedLightGreenLight {
                 //cycle through all players getting their movement
                 for (Player player : listOfPlayers) {
                     //Get movement distance for Player objects
-                    if (player instanceof MainPlayer) {
-                        //should possibly be replaced with a game engine method gameEngineSay()?
+                    if (player instanceof MainPlayer && humanPlayer.isAlive()) {
                         System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-50]");
                         choice = playerDist.nextInt();
-
                         //input validation
                         if (choice < 1 || choice > 50) {
-                            //should possibly be replaced with a game engine method gameEngineSay()?
                             System.out.println("Number must be between 1-50");
                             choice = playerDist.nextInt();
                         }
 
                         playerTime = choice / player.getPlayerSpd();    //calculate time from chosen player distance
                         checkElimination(playerTime, enemy, player);
-
-                    }else{  //this is the movement logic for Computer, assigned random rolled distance
-                        if(player.isAlive()) {
+                    }else if (player instanceof MainPlayer && !humanPlayer.isAlive()){
+                        break;
+                    } else {  //this is the movement logic for Computer, assigned random rolled distance
+                        if (player.isAlive()) {
                             choice = d6Comp.dieRoller();  //random number for computer player movement
 
                             playerTime = choice / player.getPlayerSpd();
@@ -93,17 +88,21 @@ public class RedLightGreenLight {
                     updatePlayerLocation(player, choice);   //move current player across the board
 
                 }
-            drawBoard();
+                if(!humanPlayer.isAlive()){
+                    break;
+                }else {
+                    drawBoard();
 
-            round--;
+                    round--;
+                    System.out.println("There are " + round + " seconds remaining!");
+                }
             }
-        }
-        return true;
+        return humanPlayer.isAlive();
     }
 
     /*
-    * Pulls MainPlayer properties from file (name, speed...)
-    */
+     * Pulls MainPlayer properties from file (name, speed...)
+     */
     private void loadPlayerProperties() throws IOException {
         this.save = fileManager.getSaveFile();
     }
@@ -114,7 +113,7 @@ public class RedLightGreenLight {
     private void addPlayers() {
         //creating AI players and adding them to the board
 
-        for(int i = 0; i < AI_PLAYER_COUNT; i++){
+        for (int i = 0; i < AI_PLAYER_COUNT; i++) {
             aiPlayer = new ComputerPlayer(computerPlayerNames[i]);
             listOfPlayers.add(aiPlayer);
         }
@@ -132,7 +131,7 @@ public class RedLightGreenLight {
      * The board grid has strings of P(layer), O(ther) to represent players in their starting(alive) states
      */
     public void initPlayerLocation() {
-        for (Player player: listOfPlayers ) {
+        for (Player player : listOfPlayers) {
             if (player instanceof MainPlayer) {
                 int x = humanPlayer.getPlayerID();
                 boardGrid[x][0] = "P";
@@ -144,32 +143,38 @@ public class RedLightGreenLight {
     }
 
     /*
-    * Determines if the player has been eliminated from the game
-    * if they try to exceed enemy speed isAlive set to false
-    */
+     * Determines if the player has been eliminated from the game
+     * if they try to exceed enemy speed isAlive set to false
+     */
     private void checkElimination(int time, int enemy, Player player) {
-        if(time > enemy) {
+        if (time > enemy) {
             player.setAlive(false);
             boardGrid[player.getPlayerID()][player.getyCoordinate()] = "X";
         }
     }
 
     /*
-    * Updates player location each round
-    */
+     * Updates player location each round
+     */
 
-    public void updatePlayerLocation (Player player, int distance) {
+    public void updatePlayerLocation(Player player, int distance) {
         int move = player.getyCoordinate();
         int oldY = player.getyCoordinate();
         move = move + distance;
+        if (move > 99) {
+            move = 99;
+        }
         if (player.isAlive()) {
             player.setyCoordinate(move);
-            boardGrid[player.getPlayerID()][move] = "O";
+            if(player.equals(humanPlayer)){
+                boardGrid[player.getPlayerID()][move] = "P";
+            }else {
+                boardGrid[player.getPlayerID()][move] = "O";
+            }
             boardGrid[player.getPlayerID()][oldY] = " ";
         }
     }
 
-    // TODO: Change AI from X to O when dead
     protected void drawBoard() {
         System.out.println("--------------------------------------------------" +
                 "--------------------------------------------------");
