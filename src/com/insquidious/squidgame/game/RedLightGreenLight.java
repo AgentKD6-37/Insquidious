@@ -37,68 +37,62 @@ public class RedLightGreenLight {
     public boolean redLightGreenLight() throws IOException {
         int playerTime;
         int choice = 0;
-
         loadPlayerProperties();
         String playerName = save.getProperty("playerName");
-        humanPlayer = new MainPlayer(playerName, 3);
-
+        humanPlayer = new MainPlayer(playerName, 5);
         Scanner playerDist = new Scanner(System.in);   //Setting up for user input
-
         Dice d20Enemy = new Dice(20);   //random rolls for Enemy
         Dice d6Comp = new Dice();      //random rolls for Comp
-
         addPlayers();
-
         initPlayerLocation();   //assign player spots on the board and fill the array
         drawBoard();
+        int round = TIMER;
+        //timer control
+        for (int i = TIMER; i > 0; i--) {
+            //assign random number to "catch" players if they move too far
+            int enemy = d20Enemy.dieRoller();
 
-            int round = TIMER;  //right now not used
-            //timer control
-            for (int i = TIMER; i > 0; i--) {
-                //assign random number to "catch" players if they move too far
-                int enemy = d20Enemy.dieRoller();
-
-                //cycle through all players getting their movement
-                for (Player player : listOfPlayers) {
-                    //Get movement distance for Player objects
-                    if (player instanceof MainPlayer && humanPlayer.isAlive()) {
-                        System.out.println("Green light!");
-                        System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-50]");
+            //cycle through all players getting their movement
+            for (Player player : listOfPlayers) {
+                //Get movement distance for Player objects
+                if (player instanceof MainPlayer && humanPlayer.isAlive()) {
+                    System.out.println("Green light!");
+                    System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-50]");
+                    choice = playerDist.nextInt();
+                    System.out.println("Red light!");
+                    //input validation
+                    if (choice < 1 || choice > 50) {
+                        System.out.println("Number must be between 1-50");
                         choice = playerDist.nextInt();
-                        System.out.println("Red light!");
-                        //input validation
-                        if (choice < 1 || choice > 50) {
-                            System.out.println("Number must be between 1-50");
-                            choice = playerDist.nextInt();
-                        }
-
-                        playerTime = choice / player.getPlayerSpd();    //calculate time from chosen player distance
-                        checkElimination(playerTime, enemy, player);
-                    }else if (player instanceof MainPlayer && !humanPlayer.isAlive()){
-                        break;
-                    } else {  //this is the movement logic for Computer, assigned random rolled distance
-                        if (player.isAlive()) {
-                            choice = d6Comp.dieRoller();  //random number for computer player movement
-
-                            playerTime = choice / player.getPlayerSpd();
-                            checkElimination(playerTime, enemy, player);
-                        }
                     }
-                    updatePlayerLocation(player, choice);   //move current player across the board
 
-                }
-                if(!humanPlayer.isAlive()){
+                    playerTime = choice / player.getPlayerSpd();    //calculate time from chosen player distance
+                    checkElimination(playerTime, enemy, player);
+                } else if (player instanceof MainPlayer && !humanPlayer.isAlive()) {
                     break;
-                }else {
-                    if (humanPlayer.getYCoordinate() != 99) {
-                        drawBoard();
-                        round--;
-                        System.out.println("There are " + round + " seconds remaining! You need to make it another " + (99 - humanPlayer.getYCoordinate()) + " meters!");
-                    }else{
-                        break;
+                } else {  //this is the movement logic for Computer, assigned random rolled distance
+                    if (player.isAlive()) {
+                        choice = d6Comp.dieRoller();  //random number for computer player movement
+
+                        playerTime = choice / player.getPlayerSpd();
+                        checkElimination(playerTime, enemy, player);
                     }
+                }
+                updatePlayerLocation(player, choice);   //move current player across the board
+
+            }
+            if (!humanPlayer.isAlive()) {
+                break;
+            } else {
+                if (humanPlayer.getYCoordinate() != 99) {
+                    drawBoard();
+                    round--;
+                    System.out.println("There are " + round + " seconds remaining! You need to make it another " + (99 - humanPlayer.getYCoordinate()) + " meters!");
+                } else {
+                    break;
                 }
             }
+        }
         return humanPlayer.isAlive();
     }
 
@@ -151,7 +145,9 @@ public class RedLightGreenLight {
         if (time > enemy && player.getYCoordinate() != 99) {
             player.setAlive(false);
             boardGrid[player.getPlayerID()][player.getYCoordinate()] = "X";
-            System.out.println(player.getPlayerName() + " Has been eliminated!");
+            if (player != humanPlayer) {
+                System.out.println(player.getPlayerName() + " Has been eliminated!");
+            }
         }
     }
 
@@ -168,9 +164,9 @@ public class RedLightGreenLight {
         }
         if (player.isAlive()) {
             player.setYCoordinate(move);
-            if(player.equals(humanPlayer)){
+            if (player.equals(humanPlayer)) {
                 boardGrid[player.getPlayerID()][move] = "P";
-            }else {
+            } else {
                 boardGrid[player.getPlayerID()][move] = "O";
             }
             boardGrid[player.getPlayerID()][oldY] = " ";
