@@ -92,9 +92,8 @@ public class RedLightGreenLight {
                     break;
                 }
             }
-            round--;
         }
-        if(round == 0){
+        if(round <= 0){
             humanPlayer.setAlive(false);
         }
             return humanPlayer.isAlive();
