@@ -10,7 +10,6 @@ public abstract class Player {
     protected int playerDist = 0;
     protected int yCoordinate = 0;
     protected int playerID;
-    Dice d20 = new Dice(20);
 
     public Player(String playerName)
     {
