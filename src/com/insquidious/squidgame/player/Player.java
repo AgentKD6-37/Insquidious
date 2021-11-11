@@ -58,11 +58,11 @@ public abstract class Player {
         return playerID;
     }
 
-    public int getyCoordinate() {
+    public int getYCoordinate() {
         return yCoordinate;
     }
 
-    public void setyCoordinate(int yCoordinate) {
+    public void setYCoordinate(int yCoordinate) {
         this.yCoordinate = yCoordinate;
     }
 }

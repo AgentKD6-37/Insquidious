@@ -1,8 +1,8 @@
-THE ENEMY CAUGHT YOU MOVING
+YOU WERE CAUGHT MOVING
 YOU HAVE BEEN ELIMINATED...
 
 
                                  ___________________________
-                                | 1 - RETRY                 |
+                                | 1 - RESTART               |
                                 | 2 - QUIT                  |
                                  ---------------------------

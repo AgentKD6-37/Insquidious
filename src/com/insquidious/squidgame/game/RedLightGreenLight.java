@@ -58,7 +58,7 @@ public class RedLightGreenLight {
             //timer control
             for (int i = TIMER; i > 0; i--) {
                 //assign random number to "catch" players if they move too far
-                int enemy = d20Enemy.dieRoller();
+                int enemy = d20Enemy.dieRoller()+1;
 
                 //cycle through all players getting their movement
                 for (Player player : listOfPlayers) {
@@ -91,10 +91,13 @@ public class RedLightGreenLight {
                 if(!humanPlayer.isAlive()){
                     break;
                 }else {
-                    drawBoard();
-
-                    round--;
-                    System.out.println("There are " + round + " seconds remaining!");
+                    if (humanPlayer.getYCoordinate() != 99) {
+                        drawBoard();
+                        round--;
+                        System.out.println("There are " + round + " seconds remaining! You need to make it another " + (99 - humanPlayer.getYCoordinate()) + "meters!");
+                    }else{
+                        break;
+                    }
                 }
             }
         return humanPlayer.isAlive();
@@ -147,9 +150,9 @@ public class RedLightGreenLight {
      * if they try to exceed enemy speed isAlive set to false
      */
     private void checkElimination(int time, int enemy, Player player) {
-        if (time > enemy) {
+        if (time > enemy && player.getYCoordinate() != 99) {
             player.setAlive(false);
-            boardGrid[player.getPlayerID()][player.getyCoordinate()] = "X";
+            boardGrid[player.getPlayerID()][player.getYCoordinate()] = "X";
         }
     }
 
@@ -158,14 +161,14 @@ public class RedLightGreenLight {
      */
 
     public void updatePlayerLocation(Player player, int distance) {
-        int move = player.getyCoordinate();
-        int oldY = player.getyCoordinate();
+        int move = player.getYCoordinate();
+        int oldY = player.getYCoordinate();
         move = move + distance;
         if (move > 99) {
             move = 99;
         }
         if (player.isAlive()) {
-            player.setyCoordinate(move);
+            player.setYCoordinate(move);
             if(player.equals(humanPlayer)){
                 boardGrid[player.getPlayerID()][move] = "P";
             }else {
