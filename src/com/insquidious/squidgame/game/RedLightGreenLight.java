@@ -16,7 +16,7 @@ public class RedLightGreenLight {
      * Static Fields
      */
     public static final int AI_PLAYER_COUNT = 19;
-    public static final int TIMER = 120;
+    public static final int TIMER = 60;
 
     /*
      * Fields for game management
@@ -30,8 +30,6 @@ public class RedLightGreenLight {
     private String[] computerPlayerNames = {"Gi-Hun", "Sae-Byeok", "Ji-yeong", "Sang-woo", "Ali", "Il-nam",
             "Mi-nyeo", "Deok-su", "Byeong-gi", "Seok-jin", "Yoon-gi", "Ho-seok", "Nam-joon",
             "Ji-min", "Tae-hyung", "Jung-kook", "Yong-sun", "Byul-yi", "Whee-in"};
-    private int playerSpd; //TODO READ SPEED FROM SAVE FILE, right now just using default values
-    private String playerName;
 
     /*
      * Game logic!
@@ -41,7 +39,7 @@ public class RedLightGreenLight {
         int choice = 0;
 
         loadPlayerProperties();
-        playerName = save.getProperty("playerName");
+        String playerName = save.getProperty("playerName");
         humanPlayer = new MainPlayer(playerName, 3);
 
         Scanner playerDist = new Scanner(System.in);   //Setting up for user input
@@ -58,14 +56,16 @@ public class RedLightGreenLight {
             //timer control
             for (int i = TIMER; i > 0; i--) {
                 //assign random number to "catch" players if they move too far
-                int enemy = d20Enemy.dieRoller()+1;
+                int enemy = d20Enemy.dieRoller();
 
                 //cycle through all players getting their movement
                 for (Player player : listOfPlayers) {
                     //Get movement distance for Player objects
                     if (player instanceof MainPlayer && humanPlayer.isAlive()) {
+                        System.out.println("Green light!");
                         System.out.println("how far would you like to try and move? [PICK A NUMBER BETWEEN 1-50]");
                         choice = playerDist.nextInt();
+                        System.out.println("Red light!");
                         //input validation
                         if (choice < 1 || choice > 50) {
                             System.out.println("Number must be between 1-50");
@@ -84,7 +84,6 @@ public class RedLightGreenLight {
                             checkElimination(playerTime, enemy, player);
                         }
                     }
-
                     updatePlayerLocation(player, choice);   //move current player across the board
 
                 }
@@ -94,7 +93,7 @@ public class RedLightGreenLight {
                     if (humanPlayer.getYCoordinate() != 99) {
                         drawBoard();
                         round--;
-                        System.out.println("There are " + round + " seconds remaining! You need to make it another " + (99 - humanPlayer.getYCoordinate()) + "meters!");
+                        System.out.println("There are " + round + " seconds remaining! You need to make it another " + (99 - humanPlayer.getYCoordinate()) + " meters!");
                     }else{
                         break;
                     }
@@ -125,7 +124,6 @@ public class RedLightGreenLight {
         //assigning id's to each player
         System.out.println(listOfPlayers.size());
         for (int i = 0; i < listOfPlayers.size(); i++) {
-            System.out.println("assigning ids " + i);
             listOfPlayers.get(i).setPlayerID(i);
         }
     }
@@ -153,6 +151,7 @@ public class RedLightGreenLight {
         if (time > enemy && player.getYCoordinate() != 99) {
             player.setAlive(false);
             boardGrid[player.getPlayerID()][player.getYCoordinate()] = "X";
+            System.out.println(player.getPlayerName() + " Has been eliminated!");
         }
     }
 

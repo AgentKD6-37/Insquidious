@@ -3,8 +3,8 @@ package com.insquidious.squidgame.player;
 import java.util.Random;
 
 public class ComputerPlayer extends Player{
-    private static final int MAX_SPEED = 4;
-    private static final int MIN_SPEED = 1;
+    private static final int MAX_SPEED = 5;
+    private static final int MIN_SPEED = 2;
 
     public ComputerPlayer(String playerName){
         super(playerName);

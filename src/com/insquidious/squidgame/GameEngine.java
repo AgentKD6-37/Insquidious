@@ -13,14 +13,10 @@ import java.util.Scanner;
 public class GameEngine {
     //static methods and fields
 
-    //private fields
-    private InputStream in;
-    private FileOutputStream out = null;
-    private Scanner scanner = new Scanner(System.in);
     private String saveGame = "Assets/save-game.properties";
-    private MenuManager menuManager = new MenuManager();
-    private MainPlayer player1 = new MainPlayer("Gi-hun",7);
-    private FileManager fileManager = new FileManager();
+    private final MenuManager menuManager = new MenuManager();
+    private final MainPlayer player1 = new MainPlayer("Gi-hun", 7);
+    private final FileManager fileManager = new FileManager();
     Properties saveFile;
 
 
@@ -44,13 +40,14 @@ public class GameEngine {
 
             } else if (choice == 1) { //Create new player
                 fileManager.newPlayerCreator();
+                pressEnterToContinue();
                 dormMenu();
                 break;
             } else if (choice == 2) { //Continue from save file
                 try {
                     playerRetrieveFromSave();
                     dormMenu();
-                } catch(NullPointerException e){
+                } catch (NullPointerException e) {
                     System.out.println("No save game available!");
                     choice = 1;
                 }
@@ -58,7 +55,7 @@ public class GameEngine {
             } else if (choice == 3) { //skip the BS and play the game
                 dormMenu();
                 break;
-            } else if (choice == 4){ //exit program
+            } else if (choice == 4) { //exit program
                 System.exit(0);
             }
         }
@@ -68,7 +65,8 @@ public class GameEngine {
 
     void playerRetrieveFromSave() throws IOException, InterruptedException {
         saveFile = new Properties();
-        in = new FileInputStream(saveGame);
+        //private fields
+        InputStream in = new FileInputStream(saveGame);
         saveFile.load(in);
         in.close();
         player1.setPlayerName((String) saveFile.get("playerName"));
@@ -88,18 +86,21 @@ public class GameEngine {
             System.out.print("");
             choice = playerInput.nextInt();
         } else if (choice == 1) {
+            fileManager.getAssetFile("RLGL-intro-and-rules");
+            pressEnterToContinue();
             RedLightGreenLight game1 = new RedLightGreenLight();
-            Boolean didLive = game1.redLightGreenLight();
+            boolean didLive = game1.redLightGreenLight();
             endMenu(didLive);
         } else if (choice == 2) {
             gameListMenu();
-        } else if (choice == 3){
+        } else if (choice == 3) {
             System.exit(0);
         }
-        }
+    }
 
     private void gameListMenu() throws IOException, InterruptedException {
         System.out.println("THERE IS CURRENTLY ONLY ONE GAME TO PLAY");
+        pressEnterToContinue();
         dormMenu();
     }
 
@@ -108,39 +109,39 @@ public class GameEngine {
      */
 
     private void endMenu(boolean bool) throws IOException, InterruptedException {
-        //placeholder. eliminatedMenu loads by default.
-        //TODO IF TRUE WIN IF FALSE LOSE
-        if(bool){
+        Scanner playerInput = new Scanner(System.in);
+        if (bool) {
             menuManager.winnerMenuFiles();
-            Scanner playerInput = new Scanner(System.in);
-            int choice = playerInput.nextInt();
-            if (choice < 1 || choice > 2) {
-                System.out.println("Enter \"1\" or \"2\"");
-                System.out.println(" ");
-                choice = playerInput.nextInt();
-            } else if (choice == 1) {
-                execute();
-            } else if (choice == 2) {
-                System.exit(0);
-            }
-        }
-        else {
+        } else {
             menuManager.eliminatedMenuFiles();
-            Scanner playerInput = new Scanner(System.in);
-            int choice = playerInput.nextInt();
-            if (choice < 1 || choice > 2) {
-                System.out.println("Enter \"1\" or \"2\"");
-                System.out.println(" ");
-                choice = playerInput.nextInt();
-            } else if (choice == 1) {
-                execute();
-            } else if (choice == 2) {
-                System.exit(0);
-            }
+        }
+        System.out.print("");
+        System.out.print("Please select an option: ");
+        int choice = playerInput.nextInt();
+        if (choice < 1 || choice > 2) {
+            System.out.println("Enter \"1\" or \"2\"");
+            System.out.print(" ");
+            choice = playerInput.nextInt();
+        } else if (choice == 1) {
+            execute();
+        } else if (choice == 2) {
+            System.exit(0);
+        }
+
+
+    }
+
+    private void pressEnterToContinue() {
+        System.out.println("Press Enter key to continue...");
+        try {
+            System.in.read();
+        } catch(Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public class MenuManager {
+    public static class MenuManager {
+        //holds methods for retrieving files.
 
         public void getAssetFile(String fileName) throws IOException {
             String art = "Assets/" + fileName;
