@@ -3,10 +3,9 @@ package com.insquidious.squidgame;
 import com.insquidious.squidgame.game.RedLightGreenLight;
 import com.insquidious.squidgame.player.MainPlayer;
 
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
 

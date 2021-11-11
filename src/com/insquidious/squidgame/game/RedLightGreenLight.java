@@ -50,7 +50,7 @@ public class RedLightGreenLight {
         //timer control
         for (int i = TIMER; i > 0; i--) {
             //assign random number to "catch" players if they move too far
-            int enemy = d20Enemy.dieRoller();
+            int enemy = d20Enemy.roll();
 
             //cycle through all players getting their movement
             for (Player player : listOfPlayers) {
@@ -72,7 +72,7 @@ public class RedLightGreenLight {
                     break;
                 } else {  //this is the movement logic for Computer, assigned random rolled distance
                     if (player.isAlive()) {
-                        choice = d6Comp.dieRoller();  //random number for computer player movement
+                        choice = d6Comp.roll();  //random number for computer player movement
 
                         playerTime = choice / player.getPlayerSpd();
                         checkElimination(playerTime, enemy, player);

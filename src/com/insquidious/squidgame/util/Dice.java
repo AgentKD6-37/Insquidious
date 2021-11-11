@@ -27,18 +27,18 @@ public class Dice {
      * getSides() to bound the die roll. Can be used on it's own to generate a random die
      * roll, or in combination with dieSum to tally multiple rolls.
      */
-    public int dieRoller() {
+    public int roll() {
         int result = 0;
         sides = getSides() + 1;
         Random random = new Random();   //instance of the random number class
-        result = random.nextInt(sides+1);   //generates random number from 1-sides
+        result = (random.nextInt(sides) + 1);   //generates random number from 1-sides
         return result;
     }
 
     public int dieSum() {
         int sum = 0;
         for (int i = 0; i < getNumDice(); i++) {
-            sum = sum + this.dieRoller();
+            sum = sum + this.roll();
         }
         return sum;
     }
